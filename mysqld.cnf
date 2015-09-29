@@ -45,6 +45,10 @@ innodb_flush_method=O_DIRECT
 innodb_buffer_pool_dump_at_shutdown=1
 innodb_buffer_pool_load_at_startup=1
 
+innodb_file_per_table=1
+innodb_checksums=0
+innodb_support_xa=0
+
 #
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
