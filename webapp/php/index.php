@@ -444,6 +444,15 @@ $app->get('/initialize', function () use ($app) {
     db_execute("DELETE FROM footprints WHERE id > 500000");
     db_execute("DELETE FROM entries WHERE id > 500000");
     db_execute("DELETE FROM comments WHERE id > 1500000");
+
+    db_execute("CREATE INDEX users_idx1 ON users(account_name)");
+    db_execute("CREATE INDEX users_idx2 ON users(email, passhash)");
+
+    db_execute("CREATE INDEX relations_idx1 ON relations(one)");
+    db_execute("CREATE INDEX relations_idx2 ON relations(another)");
+
+    db_execute("CREATE INDEX footprints_idx1 ON footprints(user_id)");
+    db_execute("CREATE INDEX footprints_idx2 ON footprints(updated)");
 });
 
 $app->run();
