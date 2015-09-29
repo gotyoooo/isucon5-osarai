@@ -80,6 +80,8 @@ function db()
         if ($config['host'] === 'localhost') $dsn .= ";unix_socket=/var/run/mysqld/mysqld.sock";
         $options = array(
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            // コネクションの永続化
+            PDO::ATTR_PERSISTENT => true,
         );
         $db = new PDO($dsn, $config['username'], $config['password'], $options);
     }
