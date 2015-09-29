@@ -424,7 +424,17 @@ $app->get('/friends', function () use ($app) {
     $stmt = db_execute($query, array(current_user()['id'], current_user()['id']));
     while ($rel = $stmt->fetch()) {
         $key = ($rel['one'] == current_user()['id'] ? 'another' : 'one');
-        if (!isset($friends[$rel[$key]])) $friends[$rel[$key]] = $rel['created_at'];
+       // if (!isset($friends[$rel[$key]])) $friends[$rel[$key]] = $rel['created_at'];
+        $friends[$rel[$key]]['created_at'] = $rel['created_at'];
+    }
+    $user_ids = array_keys($friends);
+    $query = 'SELECT * FROM users WHERE id IN('. substr(str_repeat(',?', count($user_ids)),1). ')';
+    $users = db_execute($query, $user_ids)->fetchAll();
+    foreach ($users as $rel) {
+        $friends[$rel['id']]['user'] = $rel;
+    }
+    if(count($users) !== count($friends)) {
+        abort_content_not_found();
     }
     $app->render('friends.php', array('friends' => $friends));
 });
