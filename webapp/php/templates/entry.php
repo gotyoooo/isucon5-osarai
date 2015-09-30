@@ -14,8 +14,7 @@
 <div class="row panel panel-primary" id="entry-comments">
   <?php foreach ($comments as $comment) { ?>
   <div class="comment">
-    <?php $comment_user = get_user($comment['user_id']) ?>
-    <div class="comment-owner"><a href="/profile/<?php h($comment_user['account_name']) ?>"><?php h($comment_user['nick_name']) ?>さん</a></div>
+    <div class="comment-owner"><a href="/profile/<?php h($comment['account_name']) ?>"><?php h($comment['nick_name']) ?>さん</a></div>
     <div class="comment-comment">
       <?php foreach (preg_split('/\n/', $comment['comment']) as $line) { ?>
       <?php h($line) ?><br />

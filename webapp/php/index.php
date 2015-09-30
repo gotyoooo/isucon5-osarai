@@ -370,7 +370,12 @@ $app->get('/diary/entry/:entry_id', function ($entry_id) use ($app) {
     if ($entry['is_private'] && !permitted($owner['id'])) {
         abort_permission_denied();
     }
-    $comments = db_execute('SELECT * FROM comments WHERE entry_id = ?', array($entry['id']))->fetchAll();
+    $sql =<<<SQL
+SELECT c.*,u.account_name,u.nick_name
+FROM comments c LEFT JOIN users u ON c.user_id = u.id
+WHERE c.entry_id = ?
+SQL;
+    $comments = db_execute($sql, [$entry['id']]);
     mark_footprint($owner['id']);
     $locals = array(
         'owner' => $owner,
