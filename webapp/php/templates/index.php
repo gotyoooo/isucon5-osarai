@@ -30,8 +30,7 @@
     <div id="footprints">
       <ul class="list-group">
         <?php foreach ($footprints as $fp) { ?>
-        <?php $owner = get_user($fp['owner_id']) ?>
-        <li class="list-group-item footprints-footprint"><?php h($fp['updated']) ?>: <a href="/profile/<?php h($owner['account_name']) ?>"><?php h($owner['nick_name']) ?>さん</a>
+        <li class="list-group-item footprints-footprint"><?php h($fp['updated']) ?>: <a href="/profile/<?php h($fp['account_name']) ?>"><?php h($fp['nick_name']) ?>さん</a>
         <?php } ?>
       </ul>
     </div>
