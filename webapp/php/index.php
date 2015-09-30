@@ -465,6 +465,21 @@ $app->get('/initialize', function () use ($app) {
 
     db_execute("CREATE INDEX footprints_idx1 ON footprints(user_id)");
     db_execute("CREATE INDEX footprints_idx2 ON footprints(updated)");
+    
+    $query = "SHOW TABLES FROM isucon5q";
+    $tables = db_execute($query)->fetchAll();
+    foreach ($tables as $table) {
+      $query = "SHOW INDEX FROM " . $table['Tables_in_isucon5q'];
+      $indexs = db_execute($query)->fetchAll();
+      foreach ($indexs as $index) {
+        if ($index['Key_name'] == 'PRIMARY') {
+          $query = "SELECT COUNT(*) FROM " . $table['Tables_in_isucon5q'];
+        } else {
+          $query = "SELECT COUNT(*) FROM " . $table['Tables_in_isucon5q'] . " FORCE INDEX(" . $index['Key_name']  . ")";  
+        }
+        db_execute($query);
+      }
+    }
 });
 
 $app->run();
